@@ -2,7 +2,7 @@
 
 FastAPI + PostgreSQL + Grafana dashboard that aggregates IOCs from OTX, VirusTotal, Shodan, AbuseIPDB, and public IP feeds. Normalizes/enriches (reputation + geo) and visualizes trends, top risky IPs, and a geomap.
 
-![Dashboard](docs/images/dashboard-overview.png)
+![Dashboard](Images/PNG\Image.png)
 
 ## What this repo shows
 - OSINT collectors (OTX/VT/Shodan/AbuseIPDB + feeds)
