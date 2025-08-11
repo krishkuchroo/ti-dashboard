@@ -1,0 +1,59 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "panels": [
+    {
+      "type": "table",
+      "title": "Top IPs",
+      "targets": [
+        {
+          "format": "table",
+          "rawSql": "\nSELECT indicator AS ip,\n       COUNT(*) AS hits,\n       MAX(COALESCE(reputation_score,0)) AS max_score\nFROM indicators\nWHERE type='ip'\nGROUP BY ip\nORDER BY hits DESC, max_score DESC\nLIMIT 20;\n"
+        }
+      ],
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "IOC Flow Over Time",
+      "targets": [
+        {
+          "format": "time_series",
+          "rawSql": "\nSELECT\n  $__timeGroupAlias(last_seen,$__interval),\n  COUNT(*) AS count\nFROM indicators\nGROUP BY 1\nORDER BY 1;\n"
+        }
+      ],
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      }
+    },
+    {
+      "type": "geomap",
+      "title": "IOC Geo (IPs)",
+      "targets": [
+        {
+          "format": "table",
+          "rawSql": "\nSELECT\n  (geo->>'lat')::float AS latitude,\n  (geo->>'lon')::float AS longitude,\n  MAX(COALESCE(reputation_score,0)) AS value,\n  indicator AS ip\nFROM indicators\nWHERE type='ip' AND geo IS NOT NULL\nGROUP BY latitude, longitude, ip;\n"
+        }
+      ],
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 9
+      }
+    }
+  ],
+  "schemaVersion": 38,
+  "title": "TI Basic",
+  "timezone": "browser",
+  "version": 1
+}
